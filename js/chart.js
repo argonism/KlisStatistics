@@ -40,11 +40,11 @@ function DrawPieChart(subject) {
             'B': '#A1C181',
             'C': '#619B8A',
             'D': '#233D4D',
-        },
-        color: function (color, d) {
-          // d will be 'id' when called for legends
-          return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
-        },
+          },
+          color: function (color, d) {
+            // d will be 'id' when called for legends
+            return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
+          },
           type : 'pie',
           order: null,
           // onclick: function (d, i) { console.log("onclick", d, i); },
@@ -92,8 +92,7 @@ var eval_questions = [
 
 var evalu_graph;
 var evalu_ids = [];
-function DrawAreaChart(subject1, subject2, onmouseover_func) {
-  console.log(onmouseover_func)
+function DrawAreaChart(subject1, subject2) {
   if(typeof evalu_graph === 'undefined') {
     evalu_graph = c3.generate({
         bindto: '#graph',
@@ -104,7 +103,15 @@ function DrawAreaChart(subject1, subject2, onmouseover_func) {
         data: {
           columns: [subject1, subject2],
           type: 'area-spline',
-          onmouseover: onmouseover_func,
+          onmouseover: function (d) {
+            if(!$('#question_txt').length) {
+                let ques = $('<div id="question_area"></div>');
+                ques.append($('<div id="question_txt"></div>'));
+                $("#graph").append(ques);
+            };
+            // $("#question_area").css("display", "block");
+            $("#question_txt").text(eval_questions[d.index]);
+          },
         },
         axis: {
           x: {
@@ -199,7 +206,7 @@ function EvaluCalcAvelage(subject) {
     }
   })
   
-  average = sum.map(one => (one / arrays.length).toString());
+  average = sum.map(one => (Math.round(one / arrays.length * 100) / 100).toString());
   return average
 }
 

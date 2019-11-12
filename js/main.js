@@ -3,27 +3,17 @@ function DrawPieChartFromNumber(number) {
     DrawPieChart( DestrShapeHash2Array(number_subj[number]) );
 }
 
-var hover_callback = function(d) {
-    console.log("ああああ！")
-    if(!$('#question_txt').length) {
-        let ques = $('<div id="question_area"></div>');
-        ques.append($('<div id="question_txt"></div>'));
-        $("#graph").append(ques);
-    };
-    // $("#question_area").css("display", "block");
-    $("#question_txt").text(eval_questions[d.index]);
-};
-
 function DrawAreaChartFromNumber(number1, number2) {
     if (number2 === 0) {
         // DrawAreaChart( EvaluShapeHash2Array(eval_num_subj[number1]), eval_ave)
         if (typeof eval_num_subj[number1] === 'undefined') {
             console.log("この講義の授業評価のデータはありません")
         }　else {
-            DrawAreaChart(EvaluShapeHash2Array(eval_num_subj[number1]), eval_ave, hover_callback);
+            console.log("area")
+            DrawAreaChart(EvaluShapeHash2Array(eval_num_subj[number1]), eval_ave);
         }
     } else {
-        DrawAreaChart( EvaluShapeHash2Array(eval_num_subj[number1]), eval_num_subj[number2], hover_callback );
+        DrawAreaChart( EvaluShapeHash2Array(eval_num_subj[number1]), eval_num_subj[number2]);
     }
 
 }
