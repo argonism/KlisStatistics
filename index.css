@@ -1,0 +1,214 @@
+body {
+    margin: 0 auto;
+    background-color: #fff;
+    font-family: 'M PLUS 1p', sans-serif;
+}
+
+.wrapper {
+    width: 100%;
+    height: 100%;
+}
+
+input[type="text"] {
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    outline: none;
+    background: none;
+}
+
+.blur {
+    filter: blur(3px);
+    background-color: #ccc;
+    transition: 0.5s all ease;
+}
+
+/**************** ヘッド ****************/
+.form {
+    width: inherit;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    flex-wrap: wrap;
+    z-index: 100;
+    border-bottom: 1px dashed #333;
+    /* background-image: linear-gradient(270deg, rgba(0,0,0, 0.1), rgba(0,0,0, 0.3)), url(img/forest.jpg);
+    background-repeat: none;
+    background-position: 100% 40%;
+    background-size: cover; */
+}
+
+.form ul {
+    list-style: none;
+    display: none;
+    padding: 0;
+    margin: 0;
+    width: 310px;
+    position:absolute;
+    top: 70px;
+    z-index: 1000;
+    box-shadow: 0px 0px 10px rgba(0,0, 0,0.2);
+    max-height: 80vh;
+    overflow: auto;
+}
+
+.form ul li {
+    display: block;
+    text-align: center;
+    padding: 3px;
+    border-bottom: 1px dashed #333;
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.form ul li:last-child {
+    border: none;
+}
+
+#search_title {
+    display:　list-item;
+    margin: 0 auto;
+    padding: 5px;
+    width: 300px;
+    height: 2em;
+    box-shadow: 0px 0px 10px rgba(0,0, 0,0.3);
+    background-color: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+}
+
+#search_title:focus {
+    box-shadow: 0px 0px 10px rgba(0,0, 0,0.2);
+    border: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+#result_area {
+    overflow: auto;
+    
+    max-width: 10vh;
+}
+
+
+/***************** main ****************/
+
+
+.main {
+    z-index: -1;
+    width: inherit;
+    /* height: 100; */
+    margin: auto;
+}
+
+.main h2 {
+    text-align: center;
+    /* font-size: px; */
+    margin:0;
+}
+
+#question_area {
+    /* display: none; */
+    position: absolute;
+    text-align: center;
+    width: 80%;
+    left: 0;
+    right: 0;
+    /* top: 0; */
+    bottom: -30%;
+    margin: auto;  
+    z-index: 0;
+}
+
+#question_txt {
+    display: flex;
+    text-align: center;
+    padding: 10px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.5);
+    justify-content: center;
+    align-items: center;
+}
+
+#graph:hover #question_area {
+    display: block;
+}
+
+.c3-legend-item > text {
+    mix-blend-mode: screen;
+    fill: #fff;
+    /* font-size: 20px; */
+}
+
+
+/*************** グラフ ***************/
+
+
+.chart_wrapper {
+    display: flex;
+    width: 100%;
+    height: 50%;
+
+    justify-content: center;
+    align-items: center;
+    flex-direction: column; 
+    flex-wrap: no-wrap;
+    
+}
+
+.pie_wrapper, .graph_wrapper {
+    display: flex;
+    width: inherit;
+    position: relative;
+    padding: 30px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row; 
+    flex-wrap: no-wrap;
+    z-index: 0;
+    /* background-image: linear-gradient(270deg, rgba(0,0,0, 0.1), rgba(0,0,0, 0.3)), url(img/forest.jpg);
+    background-repeat: none;
+    background-position: 100% 40%;
+    background-size: cover; */
+}
+
+.pie_wrapper .right {
+    width: 30%;
+    height: 100%;
+    margin-left: 30px;
+    text-align: center;
+}
+
+.pie_wrapper .left {
+    width: 30%;
+    height: 100%;
+    margin-left: 30px;
+    text-align: center;
+}
+
+.pie_wrapper h2 {
+}
+
+#pie {
+    background-color: #07171f;
+    padding: 30px;
+    /* width: 40%; */
+}
+
+
+
+#pie, #graph {
+    display: block;
+    /* border: 1px solid #333; */
+    /* box-shadow: 0px 0px 20px rgba(255, 255, 255, 1); */
+    /* background-color: rgba(255, 255, 255, 0.5); */
+    border-radius: 30px;
+}
+
+.c3-chart-arc text {
+    mix-blend-mode: screen;
+    fill: #fff !important;
+}
+/* 「登録者の少ないyoutuberが消される」は誰かの推測であり、youtube公式ツイッターでは質問に対し、「採算に関する条項は、収益が上がっていない、パートナープログラムに参加していないという理由でアカウントを停止するというものではありません。古くなった、または使われない機能やサービスの一部を終了するというものです。クリエイターや視聴者に新たな影響を与えるものではありません」と説明しています。 */
