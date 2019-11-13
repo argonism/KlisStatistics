@@ -1,4 +1,3 @@
-
 // number: title
 function SetAutoComplete(subjects_tpl) {
   let result_area = $("#search_result")
