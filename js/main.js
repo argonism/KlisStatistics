@@ -45,7 +45,7 @@ $('#search_title').on('keyup click',function(){
     if (Object.keys(matched).length >= 1)
         SetAutoComplete(matched);
     $("#search_result").css('display', 'block');
-    
+
 });
 
 function main() {
