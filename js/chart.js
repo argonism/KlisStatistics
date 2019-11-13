@@ -123,7 +123,6 @@ function DrawAreaChart(subject1, subject2) {
           }
         }
     });
-    console.log(evalu_graph)
   } else {
     evalu_graph.unload({
       ids: evalu_ids[0],
@@ -215,7 +214,7 @@ function EvaluCalcAvelage(subject) {
 }
 
 const destr_txt = GetCSV("2018_destribution");
-const evalu_txt = GetCSV("2017_evaluation_original");
+const evalu_txt = GetCSV("2018_evaluation_formatted");
 const destr_subjects = CSVtoHash(destr_txt);
 const evalu_subjects = CSVtoHash(evalu_txt);
 const eval_ave = EvaluCalcAvelage(evalu_subjects);
@@ -237,4 +236,5 @@ const title_number = {}
 destr_subjects.map( subject => {
   title_number[subject['科目名称']] = subject['科目番号']
 })
+
 

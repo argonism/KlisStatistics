@@ -120,6 +120,10 @@ input[type="text"] {
     margin:0;
 }
 
+#year {
+    color: #888;
+}
+
 #question_area {
     /* display: none; */
     position: absolute;
