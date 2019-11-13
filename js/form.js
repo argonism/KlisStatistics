@@ -14,19 +14,19 @@ function SetAutoComplete(subjects_tpl) {
 }
 
 $('#search_title').on('click',function(){
-  if ($(".main").css('background-color') === 'rgba(0, 0, 0, 0)') {
+  if (!$(".main").hasClass('blur')) {
     $(".main").toggleClass('blur');
   }
   $(this).val('')
 });
 
-$('#search_title').on('blur',function(){
-  $(".main").toggleClass('blur')
+$('.candidate').on('click',function(){
+
 });
 
 $('.main').on('click', function() {
   $("#search_result").css('display', "");
-  if ($(".main").css('background-color') !== 'rgba(0, 0, 0, 0)') {
+  if ($(".main").hasClass('blur')) {
     $(".main").toggleClass('blur')
   }
 });
@@ -39,6 +39,9 @@ $(document).on('click', '.candidate', function() {
   DrawPieChartFromNumber( subj_num )
   DrawAreaChartFromNumber(subj_num, 0);
   $("#search_result").css('display', "");
+  if ($(".main").hasClass('blur')) {
+    $(".main").toggleClass('blur')
+  }
 });
 
 

@@ -8,8 +8,9 @@ function DrawAreaChartFromNumber(number1, number2) {
         // DrawAreaChart( EvaluShapeHash2Array(eval_num_subj[number1]), eval_ave)
         if (typeof eval_num_subj[number1] === 'undefined') {
             console.log("この講義の授業評価のデータはありません")
+
+            DrawAreaChart();
         }　else {
-            console.log("area")
             DrawAreaChart(EvaluShapeHash2Array(eval_num_subj[number1]), eval_ave);
         }
     } else {

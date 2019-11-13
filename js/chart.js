@@ -29,8 +29,8 @@ function DrawPieChart(subject) {
     destr_pie = c3.generate({
       bindto: '#pie',
       size: {
-        height: 400,
-        width: 400
+        height: pie_size,
+        width: pie_size
       },
       data: {
           columns: subject,
@@ -97,21 +97,20 @@ function DrawAreaChart(subject1, subject2) {
     evalu_graph = c3.generate({
         bindto: '#graph',
         size: {
-          height: 300,
-          width: 600
+          width: graph_size[0],
+          height: graph_size[1],
         },
         data: {
           columns: [subject1, subject2],
           type: 'area-spline',
           onmouseover: function (d) {
-            if(!$('#question_txt').length) {
-                let ques = $('<div id="question_area"></div>');
-                ques.append($('<div id="question_txt"></div>'));
-                $("#graph").append(ques);
-            };
-            // $("#question_area").css("display", "block");
             $("#question_txt").text(eval_questions[d.index]);
           },
+          empty: {
+            label: {
+              // text: "No Data"
+            }
+          }
         },
         axis: {
           x: {
@@ -119,12 +118,12 @@ function DrawAreaChart(subject1, subject2) {
               categories: eval_questiontitles
           },
           y: {
-              max: 4,
-              min: 2,
+              max: 4.0,
+              min: 2.0,
           }
         }
     });
-
+    console.log(evalu_graph)
   } else {
     evalu_graph.unload({
       ids: evalu_ids[0],
@@ -132,15 +131,20 @@ function DrawAreaChart(subject1, subject2) {
     evalu_graph.unload({
       ids: evalu_ids[1],
     });
-    setTimeout(function () {
-      evalu_graph.load({
-        columns: [subject1, subject2]
-      });
-  }, 400);
+    if(typeof subject1 !== 'undefined' && typeof subject2 !== 'undefined') {
+      setTimeout(function () {
+        evalu_graph.load({
+          columns: [subject1, subject2]
+          });
+      }, 400);
+      evalu_ids[0] = subject1[0];
+      evalu_ids[1] = subject2[0];
+      $("#question_txt").text("");
+    } else {
+      $("#question_txt").text("No Data");
+    }
   }
 
-  evalu_ids[0] = subject1[0];
-  evalu_ids[1] = subject2[0];
 }
 
 function DestrShapeHash2Array(hash) {

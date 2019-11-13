@@ -23,6 +23,12 @@ input[type="text"] {
     transition: 0.5s all ease;
 }
 
+@media screen and (max-width:781px){
+    .wrapper {
+        margin: 0 auto;
+    }
+}
+
 /**************** ヘッド ****************/
 .form {
     width: inherit;
@@ -60,6 +66,11 @@ input[type="text"] {
     padding: 3px;
     border-bottom: 1px dashed #333;
     background-color: rgba(255, 255, 255, 0.9);
+}
+
+.form ul li:hover {
+    background-color: #eee;
+    transition: 0.25s background-color ease;
 }
 
 .form ul li:last-child {
@@ -123,17 +134,19 @@ input[type="text"] {
 }
 
 #question_txt {
-    display: flex;
+    /* display: flex;
     text-align: center;
     padding: 10px;
     width: 100%;
     background-color: rgba(255, 255, 255, 0.5);
     justify-content: center;
-    align-items: center;
-}
-
-#graph:hover #question_area {
+    align-items: center; */
     display: block;
+    text-align: center;
+    width: 100%;
+    margin: 20px;
+    padding: 0;
+    height: 2em;
 }
 
 #pie .c3-legend-item > text {
@@ -142,6 +155,16 @@ input[type="text"] {
     /* font-size: 20px; */
 }
 
+@media screen and (max-width:781px){
+    #question_txt {
+        display: block;
+        width: 100vw;
+        margin: 20px;
+        padding: 0;
+        height: 2em;
+        text-align: center;
+    }
+}
 
 /*************** グラフ ***************/
 
@@ -166,7 +189,7 @@ input[type="text"] {
     padding: 30px;
     justify-content: center;
     align-items: center;
-    flex-direction: row; 
+    flex-direction: column; 
     flex-wrap: no-wrap;
     z-index: 0;
     /* background-image: linear-gradient(270deg, rgba(0,0,0, 0.1), rgba(0,0,0, 0.3)), url(img/forest.jpg);
@@ -189,17 +212,6 @@ input[type="text"] {
     text-align: center;
 }
 
-.pie_wrapper h2 {
-}
-
-#pie {
-    /* background-color: rgba(07,17,17,0.5); */
-    padding: 30px;
-    /* width: 40%; */
-}
-
-
-
 #pie, #graph {
     display: block;
     /* border: 1px solid #333; */
@@ -208,8 +220,29 @@ input[type="text"] {
     border-radius: 30px;
 }
 
+#pie {
+    /* background-color: rgba(07,17,17,0.5); */
+    padding: 30px;
+    /* width: 40%; */
+}
+
 .c3-chart-arc text {
     mix-blend-mode: screen;
     fill: #fff !important;
+}
+
+
+
+@media screen and (max-width:781px){
+    .chart_wrapper {
+        padding: 0;
+        flex-direction: column;
+    }
+
+    #pie {
+        /* background-color: rgba(07,17,17,0.5); */
+        padding: 0;
+        /* width: 40%; */
+    }
 }
 /* 「登録者の少ないyoutuberが消される」は誰かの推測であり、youtube公式ツイッターでは質問に対し、「採算に関する条項は、収益が上がっていない、パートナープログラムに参加していないという理由でアカウントを停止するというものではありません。古くなった、または使われない機能やサービスの一部を終了するというものです。クリエイターや視聴者に新たな影響を与えるものではありません」と説明しています。 */

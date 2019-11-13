@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <meta name="viewport" content="width=device-width"> -->
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="index.css">
     <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
@@ -34,26 +35,27 @@
         <div class="main">
             <h2></h2>
             <div class="chart_wrapper">
-                <div id="pie"></div>
-                <div id="graph"></div>
-                <!-- <div class="pie_wrapper">
-                    <div class="left">
-                            <h2>成績分布</h2>
-                    </div>
+                <div class="pie_wrapper">
+                    <h2>成績分布</h2>
+                    <div id="pie"></div>
                 </div>
                 <div class="graph_wrapper">
-                </div> -->
+                    <h2>授業評価</h2>
+                    <p id="question_txt"></p>
+                    <div id="graph"></div>
+                </div>
             </div>
         </div>
 
     </div>
 </body>
-<script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js"></script>
+<script>
+    var windowWidth = $(window).width();
+    var graph_size = (windowWidth <= 781) ? [ 380, 190 ] : [600, 300];
+    var pie_size = (windowWidth <= 781) ? windowWidth: 400;
+</script>
 <script src="js/form.js"></script>
 <script src="js/chart.js"></script>
 <script src="js/main.js"></script>
-<!-- <script>
-
-</script> -->
 
 </html>
