@@ -1,6 +1,6 @@
 // 候補の表示
 function DrawPieChartFromNumber(number) {
-    DrawPieChart( DestrShapeHash2Array(number_subj[number]) );
+    DrawPieChart( DistrShapeHash2Array(number_subj[number]) );
 }
 
 function DrawAreaChartFromNumber(number1, number2) {
@@ -45,19 +45,19 @@ $('#search_title').on('keyup click',function(){
     if (Object.keys(matched).length >= 1)
         SetAutoComplete(matched);
     $("#search_result").css('display', 'block');
-    
+
 });
 
 function main() {
     const subject_titles = {}
-    destr_subjects.map( subject => {
+    distr_subjects.map( subject => {
         subject_titles[subject['科目番号']] = subject['科目名称']
     })
 
     SetAutoComplete(subject_titles);
-    random_destr = destr_subjects[Math.floor(Math.random() * destr_subjects.length)];
+    random_distr = distr_subjects[Math.floor(Math.random() * distr_subjects.length)];
     random_evalu = evalu_subjects[Math.floor(Math.random() * evalu_subjects.length)];
-    DrawPieChart(DestrShapeHash2Array(random_destr));
+    DrawPieChart(DistrShapeHash2Array(random_distr));
     DrawAreaChart(EvaluShapeHash2Array(random_evalu), eval_ave,);
     $('#search_title').val(random_evalu['科目名称']);
     // DrawPieChart(ShapeHash2Array(subjects[0]))

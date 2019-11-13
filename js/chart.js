@@ -17,16 +17,16 @@ function GetCSV(file_name) {
   var txt = new XMLHttpRequest();
   txt.open('get', 'data/' + file_name + ".csv", false);
   txt.send();
-  
+
   var csv_txt = txt.responseText;
   return csv_txt
 }
 
-var destr_pie;
-// var destr_ids;
+var distr_pie;
+// var distr_ids;
 function DrawPieChart(subject) {
-  if(typeof destr_pie === 'undefined') {
-    destr_pie = c3.generate({
+  if(typeof distr_pie === 'undefined') {
+    distr_pie = c3.generate({
       bindto: '#pie',
       size: {
         height: pie_size,
@@ -61,11 +61,11 @@ function DrawPieChart(subject) {
       }
     });
   } else {
-    destr_pie.unload({
+    distr_pie.unload({
       ids: ['A+', 'A', 'B', 'C', 'D']
     });
     setTimeout(function () {
-      destr_pie.load({
+      distr_pie.load({
         columns: subject,
       });
   }, 250);
@@ -146,7 +146,7 @@ function DrawAreaChart(subject1, subject2) {
 
 }
 
-function DestrShapeHash2Array(hash) {
+function DistrShapeHash2Array(hash) {
   return [
     [ "A+", hash["A+dig"]],
     [ "A", hash["A_dig"]],
@@ -196,7 +196,7 @@ function EvaluCalcAvelage(subject) {
 
     arrays.push(formatted);
   })
-  
+
   sum = Array(arrays[0].length);
   sum.fill(0);
   arrays.map( one => {
@@ -208,14 +208,14 @@ function EvaluCalcAvelage(subject) {
       }
     }
   })
-  
+
   average = sum.map(one => (Math.round(one / arrays.length * 100) / 100).toString());
   return average
 }
 
-const destr_txt = GetCSV("2018_destribution");
+const distr_txt = GetCSV("2018_distribution");
 const evalu_txt = GetCSV("2018_evaluation_formatted");
-const destr_subjects = CSVtoHash(destr_txt);
+const distr_subjects = CSVtoHash(distr_txt);
 const evalu_subjects = CSVtoHash(evalu_txt);
 const eval_ave = EvaluCalcAvelage(evalu_subjects);
 eval_ave.unshift("平均");
@@ -228,12 +228,12 @@ evalu_subjects.map( subject => {
 
 // 成績分布 -> 番号: 科目
 const number_subj = {}
-destr_subjects.map( subject => {
+distr_subjects.map( subject => {
   number_subj[subject['科目番号']] = subject
 })
 
 const title_number = {}
-destr_subjects.map( subject => {
+distr_subjects.map( subject => {
   title_number[subject['科目名称']] = subject['科目番号']
 })
 
