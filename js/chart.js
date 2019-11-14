@@ -22,58 +22,9 @@ function GetCSV(file_name) {
   return csv_txt
 }
 
-var distr_pie;
-// var distr_ids;
-function DrawPieChart(subject) {
-  if(typeof distr_pie === 'undefined') {
-    distr_pie = c3.generate({
-      bindto: '#pie',
-      size: {
-        height: pie_size,
-        width: pie_size
-      },
-      data: {
-          columns: subject,
-          colors: {
-            'A+': '#FCCA46',
-            'A': '#FE7F2D',
-            'B': '#A1C181',
-            'C': '#619B8A',
-            'D': '#233D4D',
-          },
-          color: function (color, d) {
-            // d will be 'id' when called for legends
-            return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
-          },
-          type : 'pie',
-          order: null,
-          // onclick: function (d, i) { console.log("onclick", d, i); },
-          // onmouseover: function (d, i) { console.log("onmouseover", d, i); },
-          // onmouseout: function (d, i) { console.log("onmouseout", d, i); },
-      },
-      pie: {
-        label: {
-          color: "#333",
-        }
-      },
-      donut: {
-        title: "成績分布"
-      }
-    });
-  } else {
-    distr_pie.unload({
-      ids: ['A+', 'A', 'B', 'C', 'D']
-    });
-    setTimeout(function () {
-      distr_pie.load({
-        columns: subject,
-      });
-  }, 250);
-  }
-}
 
-var eval_questiontitles = ['問1', '問2', '問3', '問4', '問8', '問9', '問10', '問11', '問12', '問13', '問14', '問15', '問16', '問17']
-var eval_questions = [
+const eval_questiontitles = ['問1', '問2', '問3', '問4', '問8', '問9', '問10', '問11', '問12', '問13', '問14', '問15', '問16', '問17']
+const eval_questions = [
   "授業の準備は十分にされていたと思いますか。",
   "教員の説明や授業の進め方は適切でしたか。",
   "授業を通じて、この科目に関連する分野への興味や関心が高まりましたか。",
@@ -90,151 +41,259 @@ var eval_questions = [
   "この授業により，さらに深く勉強したくなった。"
 ]
 
-var evalu_graph;
-var evalu_ids = [];
-function DrawAreaChart(subject1, subject2) {
-  if(typeof evalu_graph === 'undefined') {
-    evalu_graph = c3.generate({
-        bindto: '#graph',
-        size: {
-          width: graph_size[0],
-          height: graph_size[1],
+// 成績分布のクラス。グラフを一つ持つ。
+class Distribution  {
+  constructor (year, sbj_id, size) {
+    this.subjects = this.GetSubjectsFromYear(year);
+    this.size = size;
+    this.graph = this.InitPieChart(sbj_id,this.size);
+  }
+
+  GetSubjectsFromYear(year) {
+    let distr_txt = GetCSV(`${year}_distribution`);
+    return CSVtoHash(distr_txt);
+  }
+
+  // 科目番号から科目を取得
+  GetSubjectFromID(id) {
+    return this.subjects.filter(subject => subject['科目番号'] === id)[0]
+  }
+
+  // 科目番号から成績リストを取得
+  GetDegreeFromID(id) {
+    return this.ShapeHash2Array(this.GetSubjectFromID(id))
+  }
+  
+  // 科目番号からリロード
+  ReloadFromNumber(id) {
+    let grades = this.ShapeHash2Array(this.GetSubjectFromID(id));
+    this.Reload(grades);
+  }
+
+  // データの再読み込み。再描画。
+  // Reload columns
+  Reload(data_list) {
+    this.graph.unload({
+      ids: ['A+', 'A', 'B', 'C', 'D']
+    });
+    
+    setTimeout(()=>{
+      this.graph.load({
+        columns: data_list,
+      });
+    }, 250);
+  }
+
+  ShapeHash2Array(hash) {
+    return [
+      [ "A+", hash["A+dig"]],
+      [ "A", hash["A_dig"]],
+      [ "B", hash["B_dig"]],
+      [ "C", hash["C_dig"]],
+      [ "D", hash["D_dig"]],
+    ]
+  }
+
+  // コンストラクタ でのみ呼ばれる。
+  // data_list: int list ex. [(A+), (A), (B), (C), (D)]
+  InitPieChart(sbj_id) {
+    let pie = c3.generate({
+      bindto: '#pie',
+      size: {
+        height: this.size,
+        width: this.size
+      },
+      data: {
+        columns: this.GetDegreeFromID(sbj_id),
+        colors: {
+          'A+': '#FCCA46',
+          'A': '#FE7F2D',
+          'B': '#A1C181',
+          'C': '#619B8A',
+          'D': '#233D4D',
         },
-        data: {
-          columns: [subject1, subject2],
-          type: 'area-spline',
-          onmouseover: function (d) {
-            $("#question_txt").text(eval_questions[d.index]);
-          },
-          empty: {
-            label: {
-              // text: "No Data"
-            }
-          }
+        color: function (color, d) {
+          return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
         },
-        axis: {
-          x: {
-              type: 'category',
-              categories: eval_questiontitles
-          },
-          y: {
-              max: 4.0,
-              min: 2.0,
-          }
+        type: 'pie',
+        order: null,
+      },
+      pie: {
+        label: {
+          color: "#333",
         }
+      }
     });
-  } else {
-    evalu_graph.unload({
-      ids: evalu_ids[0],
+
+    return pie;
+  }
+}
+
+class Evaluation {
+  constructor(year, sbj_id, size) {
+    this.subjects = this.GetSubjectsFromYear(year);
+    this.now_sbj = new Array(2);
+    this.size = size;
+    this.ave = this.CalcAvelage(this.subjects);
+    this.graph = this.InitAreaChart(sbj_id);
+  }
+
+  GetSubjectsFromYear(year) {
+    let distr_txt = GetCSV(`${year}_evaluation_formatted`);
+    return CSVtoHash(distr_txt);
+  }
+
+  // 科目番号から科目を取得
+  GetSubjectFromID(id) {
+    return this.subjects.filter(subject => subject['科目番号'] === id)[0]
+  }
+
+  // 科目番号から成績リストを取得
+  GetDegreeFromID(id) {
+    return this.ShapeHash2Array(this.GetSubjectFromID(id))
+  }
+
+  CalcAvelage(subjects) {
+    var arrays = subjects.map( hash => {
+      return [ hash['問1'],
+                hash['問2'],
+                hash['問3'],
+                hash['問4'],
+                hash['問8'],
+                hash['問9'],
+                hash['問10'],
+                hash['問11'],
+                hash['問12'],
+                hash['問13'],
+                hash['問14'],
+                hash['問15'],
+                hash['問16'],
+                hash['問17'] ]
+    })
+    var sum = Array(arrays[0].length).fill(0);;
+    // sum.fill(0);
+    arrays.map( one => {
+      if (typeof one[0] !== "undefined") {
+        for (var i = 0; i < one.length; i++) {
+          // console.log(one)
+          sum[i] += Number.parseFloat(one[i])
+        }
+      }
+    })
+  
+    var average = sum.map(one => (Math.round(one / arrays.length * 100) / 100).toString());
+    average.unshift("平均");
+    return average
+  }
+
+  ShapeHash2Array(hash) {
+    if (typeof hash === 'undefined') return []
+
+    return  [
+      hash['科目名称'],
+      hash['問1'],
+      hash['問2'],
+      hash['問3'],
+      hash['問4'],
+      hash['問8'],
+      hash['問9'],
+      hash['問10'],
+      hash['問11'],
+      hash['問12'],
+      hash['問13'],
+      hash['問14'],
+      hash['問15'],
+      hash['問16'],
+      hash['問17'],
+    ]; 
+  }
+
+  // 科目番号からリロード
+  ReloadFromNumber(id1, id2) {
+    let grades1 = this.ShapeHash2Array(this.GetSubjectFromID(id1));
+    // id2が渡されなければ、平均を使う。
+    let grades2 = (typeof id2 === 'undefined') ? this.ave : this.ShapeHash2Array(this.GetSubjectFromID(id2));
+    this.Reload(grades1, grades2);
+  }
+
+  Reload(subject1, subject2) {
+    this.graph.unload({
+      ids: this.now_sbj[0],
     });
-    evalu_graph.unload({
-      ids: evalu_ids[1],
+    this.graph.unload({
+      ids: this.now_sbj[1],
     });
-    if(typeof subject1 !== 'undefined' && typeof subject2 !== 'undefined') {
-      setTimeout(function () {
-        evalu_graph.load({
+    if(subject1.length >= 1) {
+      setTimeout( () => {
+        this.graph.load({
           columns: [subject1, subject2]
           });
       }, 400);
-      evalu_ids[0] = subject1[0];
-      evalu_ids[1] = subject2[0];
+      this.now_sbj[0] = subject1[0];
+      this.now_sbj[1] = subject2[0];
       $("#question_txt").text("");
     } else {
       $("#question_txt").text("No Data");
     }
   }
 
-}
-
-function DistrShapeHash2Array(hash) {
-  return [
-    [ "A+", hash["A+dig"]],
-    [ "A", hash["A_dig"]],
-    [ "B", hash["B_dig"]],
-    [ "C", hash["C_dig"]],
-    [ "D", hash["D_dig"]],
-  ]
-}
-
-function EvaluShapeHash2Array(hash) {
-  return [
-    hash['科目名称'],
-    hash['問1'],
-    hash['問2'],
-    hash['問3'],
-    hash['問4'],
-    hash['問8'],
-    hash['問9'],
-    hash['問10'],
-    hash['問11'],
-    hash['問12'],
-    hash['問13'],
-    hash['問14'],
-    hash['問15'],
-    hash['問16'],
-    hash['問17'],
-  ]
-}
-
-function EvaluCalcAvelage(subject) {
-  var arrays = []
-  subject.map( hash => {
-    var formatted = [ hash['問1'],
-                      hash['問2'],
-                      hash['問3'],
-                      hash['問4'],
-                      hash['問8'],
-                      hash['問9'],
-                      hash['問10'],
-                      hash['問11'],
-                      hash['問12'],
-                      hash['問13'],
-                      hash['問14'],
-                      hash['問15'],
-                      hash['問16'],
-                      hash['問17'] ]
-
-    arrays.push(formatted);
-  })
-
-  sum = Array(arrays[0].length);
-  sum.fill(0);
-  arrays.map( one => {
-    if (typeof one[0] === "undefined") {
-    } else {
-      for (i = 0; i < one.length; i++) {
-        // console.log(one)
-        sum[i] += Number.parseFloat(one[i])
+  InitAreaChart(sbj_id) {
+    let data_li =  this.GetDegreeFromID(sbj_id);
+    this.now_sbj[0] = data_li[0];
+    this.now_sbj[1] = this.ave[0];
+    let graph = c3.generate({
+      bindto: '#graph',
+      size: {
+        width: this.size[0],
+        height: this.size[1],
+      },
+      data: {
+        columns: [data_li, this.ave],
+        type: 'area-spline',
+        onmouseover: function (d) {
+          $("#question_txt").text(eval_questions[d.index]);
+        },
+        empty: {
+          label: {
+            // text: "No Data"
+          }
+        }
+      },
+      axis: {
+        x: {
+            type: 'category',
+            categories: eval_questiontitles
+        },
+        y: {
+            max: 4.0,
+            min: 2.0,
+        }
       }
-    }
-  })
-
-  average = sum.map(one => (Math.round(one / arrays.length * 100) / 100).toString());
-  return average
+    });
+    return graph;
+  }
 }
 
-const distr_txt = GetCSV("2018_distribution");
-const evalu_txt = GetCSV("2018_evaluation_formatted");
-const distr_subjects = CSVtoHash(distr_txt);
-const evalu_subjects = CSVtoHash(evalu_txt);
-const eval_ave = EvaluCalcAvelage(evalu_subjects);
-eval_ave.unshift("平均");
+// const evalu_txt = GetCSV("2018_evaluation_formatted");
+// // const distr_txt = GetCSV("2018_distribution");
+// // const distr_subjects = CSVtoHash(distr_txt);
+// const evalu_subjects = CSVtoHash(evalu_txt);
+// const eval_ave = EvaluCalcAvelage(evalu_subjects);
+// eval_ave.unshift("平均");
 
 // 授業評価 -> 番号 : 科目
-const eval_num_subj = {}
-evalu_subjects.map( subject => {
-  eval_num_subj[subject['科目番号']] = subject
-})
+// const eval_num_subj = {}
+// evalu_subjects.map( subject => {
+//   eval_num_subj[subject['科目番号']] = subject
+// })
 
-// 成績分布 -> 番号: 科目
-const number_subj = {}
-distr_subjects.map( subject => {
-  number_subj[subject['科目番号']] = subject
-})
+// // 成績分布 -> 番号: 科目
+// const number_subj = {}
+// distr_subjects.map( subject => {
+//   number_subj[subject['科目番号']] = subject
+// })
 
-const title_number = {}
-distr_subjects.map( subject => {
-  title_number[subject['科目名称']] = subject['科目番号']
-})
-
-
+// const title_number = {}
+// distr_subjects.map( subject => {
+//   title_number[subject['科目名称']] = subject['科目番号']
+// })
