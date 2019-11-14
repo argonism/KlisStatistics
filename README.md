@@ -1,14 +1,15 @@
-#Klis Statistics
+# Klis Statistics
 
-##Klis Statistics とは？
-###__klisによる、klisの、klisのためのサイト__
-
+## Klis Statistics とは？
+### __klisによる、klisの、klisのためのサイト__
 授業評価と成績分布をグラフィカルに表示します。
 
-##要望等
+<br><br>
+## 要望等
 いつでもOKです。
 
 issueをたてるか、@usulityまでご連絡をば。
 
-##いい感じに協力してくれ
+<br><br>
+## いい感じにプルリク送ってくれ
 いい感じにゆるっとコミットしてくれ
