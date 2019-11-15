@@ -1,15 +1,20 @@
 # Klis Statistics
 
-## Klis Statistics とは？
-### __klisによる、klisの、klisのためのサイト__
+[https://argonism.github.io/KlisStatistics/](https://argonism.github.io/KlisStatistics/)
+![DEMO](https://i.imgur.com/kXODOPA.gif)
+
+## ・Klis Statistics とは？
+
+### __"klisによる、klisの、klisのためのサイト"__
+
 授業評価と成績分布をグラフィカルに表示します。
 
-<br><br>
-## 要望等
+## ・要望等
+
 いつでもOKです。
 
-issueをたてるか、@usulityまでご連絡をば。
+[issue](https://github.com/argonism/KlisStatistics/issues)をたてるか、[@usulity](https://twitter.com/usulity)までご連絡をば。
 
-<br><br>
-## いい感じにプルリク送ってくれ
+## ・いい感じにプルリク送ってくれ
+
 いい感じにゆるっとコミットしてくれ
