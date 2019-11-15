@@ -13,7 +13,7 @@
 
 いつでもOKです。
 
-[issue]([https://github.com/argonism/KlisStatistics/issues](https://github.com/argonism/KlisStatistics/issues))をたてるか、[@usulity]([https://twitter.com/usulity](https://twitter.com/usulity))までご連絡をば。
+[issue](https://github.com/argonism/KlisStatistics/issues)をたてるか、[@usulity](https://twitter.com/usulity)までご連絡をば。
 
 ## ・いい感じにプルリク送ってくれ
 
