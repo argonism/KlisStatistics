@@ -50,7 +50,7 @@ class Distribution  {
   }
 
   GetSubjectsFromYear(year) {
-    let distr_txt = GetCSV(`${year}_distribution`);
+    let distr_txt = GetCSV(`Distribution${year}`);
     return CSVtoHash(distr_txt);
   }
 
@@ -63,7 +63,7 @@ class Distribution  {
   GetDegreeFromID(id) {
     return this.ShapeHash2Array(this.GetSubjectFromID(id))
   }
-  
+
   // 科目番号からリロード
   ReloadFromNumber(id) {
     let grades = this.ShapeHash2Array(this.GetSubjectFromID(id));
@@ -76,7 +76,7 @@ class Distribution  {
     this.graph.unload({
       ids: ['A+', 'A', 'B', 'C', 'D']
     });
-    
+
     setTimeout(()=>{
       this.graph.load({
         columns: data_list,
@@ -139,7 +139,7 @@ class Evaluation {
   }
 
   GetSubjectsFromYear(year) {
-    let distr_txt = GetCSV(`${year}_evaluation_formatted`);
+    let distr_txt = GetCSV(`Evaluation${year}`);
     return CSVtoHash(distr_txt);
   }
 
@@ -180,7 +180,7 @@ class Evaluation {
         }
       }
     })
-  
+
     var average = sum.map(one => (Math.round(one / arrays.length * 100) / 100).toString());
     average.unshift("平均");
     return average
@@ -205,7 +205,7 @@ class Evaluation {
       hash['問15'],
       hash['問16'],
       hash['問17'],
-    ]; 
+    ];
   }
 
   // 科目番号からリロード
