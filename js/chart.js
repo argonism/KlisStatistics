@@ -22,7 +22,6 @@ function GetCSV(file_name) {
   return csv_txt
 }
 
-
 const eval_questiontitles = ['問1', '問2', '問3', '問4', '問8', '問9', '問10', '問11', '問12', '問13', '問14', '問15', '問16', '問17']
 const eval_questions = [
   "授業の準備は十分にされていたと思いますか。",
@@ -42,11 +41,12 @@ const eval_questions = [
 ]
 
 // 成績分布のクラス。グラフを一つ持つ。
-class Distribution  {
-  constructor (year, sbj_id, size) {
+class Distribution {
+  constructor (year, size) {
     this.subjects = this.GetSubjectsFromYear(year);
     this.size = size;
-    this.graph = this.InitPieChart(sbj_id,this.size);
+    this.now_sbj;
+    this.graph;
   }
 
   GetSubjectsFromYear(year) {
@@ -54,9 +54,26 @@ class Distribution  {
     return CSVtoHash(distr_txt);
   }
 
-  // 科目番号から科目を取得
+  SetSubjectsFromYear(year) {
+    this.subjects = this.GetSubjectsFromYear(year)
+  }
+
+  // 年度と科目名を指定。科目がなかったら
+  ReloadWithYear(year, sbj) {
+    this.subjects = this.GetSubjectsFromYear(year)
+    let random_distr = this.subjects.filter(subject => {
+        return subject['科目名称'] === sbj['科目名称']
+      });
+
+    this.Reload(this.ShapeHash2Array(sbj));
+  }
+
   GetSubjectFromID(id) {
     return this.subjects.filter(subject => subject['科目番号'] === id)[0]
+  }
+
+  GetSubjectFromTitle(title) {
+    return this.subjects.filter(subject => subject['科目名称'] === title)[0]
   }
 
   // 科目番号から成績リストを取得
@@ -66,17 +83,28 @@ class Distribution  {
 
   // 科目番号からリロード
   ReloadFromNumber(id) {
-    let grades = this.ShapeHash2Array(this.GetSubjectFromID(id));
-    this.Reload(grades);
+    this.now_sbj = id;
+    let target = this.GetSubjectFromID(id);
+    if (target) {
+      let grades = this.ShapeHash2Array(target);
+      this.Reload(grades);
+    } else {
+      this.Reload();
+    }
   }
 
   // データの再読み込み。再描画。
   // Reload columns
   Reload(data_list) {
+    // if (!data_list) {
+    //   // data_list = true
+    //   data_list = ["aaa", 1, 2, 3]
+    // }
+
     this.graph.unload({
       ids: ['A+', 'A', 'B', 'C', 'D']
     });
-
+    
     setTimeout(()=>{
       this.graph.load({
         columns: data_list,
@@ -96,7 +124,8 @@ class Distribution  {
 
   // コンストラクタ でのみ呼ばれる。
   // data_list: int list ex. [(A+), (A), (B), (C), (D)]
-  InitPieChart(sbj_id) {
+  InitGraph(sbj) {
+    let degree = this.ShapeHash2Array(sbj)
     let pie = c3.generate({
       bindto: '#pie',
       size: {
@@ -104,13 +133,18 @@ class Distribution  {
         width: this.size
       },
       data: {
-        columns: this.GetDegreeFromID(sbj_id),
+        columns: degree,
         colors: {
           'A+': '#FCCA46',
           'A': '#FE7F2D',
           'B': '#A1C181',
           'C': '#619B8A',
           'D': '#233D4D',
+        },
+        empty: {
+          label: {
+            text: "No Data"
+          }
         },
         color: function (color, d) {
           return d.id && d.id === 'data3' ? d3.rgb(color).darker(d.value / 150) : color;
@@ -124,18 +158,18 @@ class Distribution  {
         }
       }
     });
-
-    return pie;
+    this.now_sbj = sbj['科目番号'];
+    this.graph = pie;
   }
 }
 
 class Evaluation {
-  constructor(year, sbj_id, size) {
+  constructor(year, size) {
     this.subjects = this.GetSubjectsFromYear(year);
     this.now_sbj = new Array(2);
-    this.size = size;
     this.ave = this.CalcAvelage(this.subjects);
-    this.graph = this.InitAreaChart(sbj_id);
+    this.size = size;
+    this.graph;
   }
 
   GetSubjectsFromYear(year) {
@@ -143,7 +177,6 @@ class Evaluation {
     return CSVtoHash(distr_txt);
   }
 
-  // 科目番号から科目を取得
   GetSubjectFromID(id) {
     return this.subjects.filter(subject => subject['科目番号'] === id)[0]
   }
@@ -151,6 +184,22 @@ class Evaluation {
   // 科目番号から成績リストを取得
   GetDegreeFromID(id) {
     return this.ShapeHash2Array(this.GetSubjectFromID(id))
+  }
+
+  GetSubjectFromTitle(title) {
+    return this.subjects.filter(subject => subject['科目名称'] === title)[0]
+  }
+  SetSubjectsFromYear(year) {
+    this.subjects = this.GetSubjectsFromYear(year)
+  }
+  
+  ReloadWithYear(year, sbj) {
+    this.subjects = this.GetSubjectsFromYear(year)
+    let random_evalu = this.subjects.filter(subject => {
+      return subject['科目名称'] === sbj['科目名称']
+    });
+    
+    this.Reload(this.ShapeHash2Array(random_evalu[0]), this.ave);
   }
 
   CalcAvelage(subjects) {
@@ -171,11 +220,9 @@ class Evaluation {
                 hash['問17'] ]
     })
     var sum = Array(arrays[0].length).fill(0);;
-    // sum.fill(0);
     arrays.map( one => {
       if (typeof one[0] !== "undefined") {
         for (var i = 0; i < one.length; i++) {
-          // console.log(one)
           sum[i] += Number.parseFloat(one[i])
         }
       }
@@ -223,7 +270,7 @@ class Evaluation {
     this.graph.unload({
       ids: this.now_sbj[1],
     });
-    if(subject1.length >= 1) {
+    if( subject1 && subject1.length >= 1) {
       setTimeout( () => {
         this.graph.load({
           columns: [subject1, subject2]
@@ -237,10 +284,13 @@ class Evaluation {
     }
   }
 
-  InitAreaChart(sbj_id) {
-    let data_li =  this.GetDegreeFromID(sbj_id);
-    this.now_sbj[0] = data_li[0];
-    this.now_sbj[1] = this.ave[0];
+  InitGraph(sbj1, sbj2) {
+    let evalu1 = this.ShapeHash2Array(sbj1);
+    let evalu2 = sbj2 ? this.ShapeHash2Array(sbj2) : this.ave
+    // 科目名を追加
+    this.now_sbj[0] = evalu1[0];
+    this.now_sbj[1] = evalu2[0];
+
     let graph = c3.generate({
       bindto: '#graph',
       size: {
@@ -248,7 +298,7 @@ class Evaluation {
         height: this.size[1],
       },
       data: {
-        columns: [data_li, this.ave],
+        columns: [evalu1, evalu2],
         type: 'area-spline',
         onmouseover: function (d) {
           $("#question_txt").text(eval_questions[d.index]);
@@ -270,30 +320,6 @@ class Evaluation {
         }
       }
     });
-    return graph;
+    this.graph = graph;
   }
 }
-
-// const evalu_txt = GetCSV("2018_evaluation_formatted");
-// // const distr_txt = GetCSV("2018_distribution");
-// // const distr_subjects = CSVtoHash(distr_txt);
-// const evalu_subjects = CSVtoHash(evalu_txt);
-// const eval_ave = EvaluCalcAvelage(evalu_subjects);
-// eval_ave.unshift("平均");
-
-// 授業評価 -> 番号 : 科目
-// const eval_num_subj = {}
-// evalu_subjects.map( subject => {
-//   eval_num_subj[subject['科目番号']] = subject
-// })
-
-// // 成績分布 -> 番号: 科目
-// const number_subj = {}
-// distr_subjects.map( subject => {
-//   number_subj[subject['科目番号']] = subject
-// })
-
-// const title_number = {}
-// distr_subjects.map( subject => {
-//   title_number[subject['科目名称']] = subject['科目番号']
-// })

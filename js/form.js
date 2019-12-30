@@ -12,6 +12,19 @@ function SetAutoComplete(subjects_tpl) {
   };
 }
 
+function InitYearSelect() {
+  let years = ['2018', '2017', '2016', '2015', '2014'];
+
+  years.forEach(year => {
+    let list_child = $('<option></option>').html(year)
+    $('#year select').append(list_child)
+  })
+}
+
+$('#year_txt').on('click',function(){ 
+  $('#year ul').toggleClass('display_block');
+});
+
 // フォームクリック時に背景をぼかして空にする。
 $('#search_title').on('click',function(){
   if (!$(".main").hasClass('blur')) {
@@ -20,7 +33,7 @@ $('#search_title').on('click',function(){
   $(this).val('')
 });
 
-// フォームクリック以外をクリック背景をぼかして空にする。
+// フォームクリック以外をクリック背景を戻して空にする。
 $('.main').on('click', function() {
   $("#search_result").css('display', "");
   if ($(".main").hasClass('blur')) {
@@ -29,7 +42,6 @@ $('.main').on('click', function() {
 });
 
 function InitSuggest(graphs) {
-
   // 検索候補クリック時にグラフを再描写するためのリスナー
   $(document).on('click', '.candidate', function() {
     let subj_num = $(this).attr("name");

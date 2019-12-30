@@ -14,23 +14,52 @@ function SearchAndSuggest(subject_titles) {
             SetAutoComplete(matched);
         $("#search_result").css('display', 'block');
     });
+
+}
+
+// グラフの配列を受け取る。配列の順番は決まっていて、0番目に基準としたいグラフを持ってくる。
+function GraphsReloadWithYear(year, graphs) {
+    let now_sbj_id = graphs[0].now_sbj;
+    let title = graphs[0].GetSubjectFromID(now_sbj_id)["科目名称"];
+    // 各グラフのデータに、今選択されている科目があるかどうか。
+    let new_subjects = graphs.map(graph => {
+        // グラフの保持する科目の更新
+        
+        graph.SetSubjectsFromYear(year);
+
+        let subject = graph.GetSubjectFromID(now_sbj_id);
+        if (subject) {
+            return subject
+        }
+        else if (!subject && graph.GetSubjectFromTitle(title)) {
+            console.log("in a else if")
+            subject = graph.GetSubjectFromTitle(title);
+            console.log(subject)
+            return subject
+        }
+        else {
+            return null
+        }
+        
+    });
+ 
+    graphs.forEach((graph, index) => {
+        if (new_subjects[index]) {
+            graph.ReloadWithYear(year, new_subjects[index]);
+        } else {
+            graph.Reload();
+        }
+    });
 }
 
 
-
-
 function main() {
-    
-    // 成績分布の表の生成と描画
-    var distr = new Distribution('2018', 'GE80301', pie_size);
+    var distr = new Distribution('2018', pie_size);
+    var evalu = new Evaluation('2018', graph_size);
     random_distr = distr.subjects[Math.floor(Math.random() * distr.subjects.length)];
-    distr.Reload(distr.ShapeHash2Array(random_distr));
+    distr.InitGraph(random_distr);
+    evalu.InitGraph(evalu.GetSubjectFromID(random_distr['科目番号']));
 
-    var evalu = new Evaluation('2018', 'GE80301', graph_size);
-    random_evalu = evalu.subjects[Math.floor(Math.random() * evalu.subjects.length)];
-    evalu.Reload(evalu.ShapeHash2Array(random_evalu), evalu.ave);
-
-    // 入力補完の候補の挿入
     const subject_titles = {}
     distr.subjects.map( subject => {
         subject_titles[subject['科目番号']] = subject['科目名称']
@@ -38,8 +67,14 @@ function main() {
     SetAutoComplete(subject_titles);
     SearchAndSuggest(subject_titles);
     InitSuggest([distr, evalu]);
+    InitYearSelect();
 
     $('#search_title').val(random_distr['科目名称']);
+
+    $(document).on('change', '#year_select', function() {
+        var year = $(this).val();
+        GraphsReloadWithYear(year, [distr, evalu]);
+    })
 }
 
 main()
