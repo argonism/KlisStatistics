@@ -34,7 +34,7 @@ GEM
       http_parser.rb (~> 0.6.0)
     eventmachine (1.2.3)
     eventmachine (1.2.3-x86-mingw32)
-    excon (0.55.0)
+    excon (0.71.0)
     execjs (1.4.1)
       multi_json (~> 1.0)
     ffi (1.11.1)
@@ -230,7 +230,7 @@ GEM
       mini_portile2 (~> 2.4.0)
     nokogiri (1.10.5-x86-mingw32)
       mini_portile2 (~> 2.4.0)
-    rack (1.6.11)
+    rack (1.6.12)
     rack-livereload (0.3.16)
       rack
     rack-test (0.6.3)
