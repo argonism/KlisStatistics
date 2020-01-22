@@ -20,7 +20,11 @@ function SearchAndSuggest(subject_titles) {
 // グラフの配列を受け取る。配列の順番は決まっていて、0番目に基準としたいグラフを持ってくる。
 function GraphsReloadWithYear(year, graphs) {
     let now_sbj_id = graphs[0].now_sbj;
-    let title = graphs[0].GetSubjectFromID(now_sbj_id)["科目名称"];
+    let target_sbj = graphs[0].GetSubjectFromID(now_sbj_id);
+    let title;
+    if (target_sbj) {
+        title = graphs[0].GetSubjectFromID(now_sbj_id)["科目名称"];
+    }
     // 各グラフのデータに、今選択されている科目があるかどうか。
     let new_subjects = graphs.map(graph => {
         // グラフの保持する科目の更新
@@ -50,6 +54,13 @@ function GraphsReloadWithYear(year, graphs) {
             graph.Reload();
         }
     });
+
+    const subject_titles = {}
+    graphs[0].subjects.map( subject => {
+        subject_titles[subject['科目番号']] = subject['科目名称']
+    })
+    SetAutoComplete(subject_titles);
+    SearchAndSuggest(subject_titles);
 }
 
 
