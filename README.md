@@ -1,7 +1,7 @@
 # Klis Statistics
 
 [https://argonism.github.io/KlisStatistics/](https://argonism.github.io/KlisStatistics/)
-![DEMO](https://i.imgur.com/kXODOPA.gif)
+![DEMO](https://raw.githubusercontent.com/argonism/KlisStatistics/master/img/demo.gif)
 
 ## ・Klis Statistics とは？
 
