@@ -61,6 +61,7 @@ function GraphsReloadWithYear(year, graphs) {
     })
     SetAutoComplete(subject_titles);
     SearchAndSuggest(subject_titles);
+    SetDenominator(graphs, now_sbj_id)
 }
 
 
@@ -78,6 +79,7 @@ function main() {
     SetAutoComplete(subject_titles);
     SearchAndSuggest(subject_titles);
     InitSuggest([distr, evalu]);
+    SetDenominator([distr, evalu], random_distr["科目番号"]);
     InitYearSelect();
 
     $('#search_title').val(random_distr['科目名称']);

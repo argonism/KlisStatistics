@@ -12,6 +12,18 @@ function SetAutoComplete(subjects_tpl) {
   };
 }
 
+// 1: distri, 2: evalu
+function SetDenominator(graphs, subj_id) {
+  distri_denominator = graphs[0].GetSubjectFromID(subj_id)["履修者数"];
+  evalu_denominator = graphs[1].GetSubjectFromID(subj_id)["回答者数"]
+  if (!evalu_denominator) {
+    evalu_denominator = graphs[1].GetSubjectFromID(subj_id)["回答者"]
+  }
+
+  $(".pie_wrapper .denominator").text("履修者数: " + String(distri_denominator))
+  $(".graph_wrapper .denominator").text("回答者数: " + String(evalu_denominator))
+}
+
 function InitYearSelect() {
   let years = ['2018', '2017', '2016', '2015', '2014'];
 
@@ -41,6 +53,7 @@ $('.main').on('click', function() {
   }
 });
 
+// [distri, evalu]
 function InitSuggest(graphs) {
   // 検索候補クリック時にグラフを再描写するためのリスナー
   $(document).on('click', '.candidate', function() {
@@ -52,6 +65,8 @@ function InitSuggest(graphs) {
     graphs.forEach(graph => {
       graph.ReloadFromNumber(subj_num);
     });
+
+    SetDenominator(graphs[0], subj_num);
 
     // 背景のぼかしを消す
     $("#search_result").css('display', "");
