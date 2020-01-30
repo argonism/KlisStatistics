@@ -66,7 +66,7 @@ function InitSuggest(graphs) {
       graph.ReloadFromNumber(subj_num);
     });
 
-    SetDenominator(graphs[0], subj_num);
+    SetDenominator(graphs, subj_num);
 
     // 背景のぼかしを消す
     $("#search_result").css('display', "");
