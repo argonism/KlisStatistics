@@ -66,9 +66,20 @@ function GraphsReloadWithYear(year, graphs) {
 
 
 function main() {
+    const NOT_IN_EVALUATION = {
+        "2018": ["GA40303", "GE20301", "GE40603", "GE51018"],
+        "2017": ["GE10732","GE40603","GE51018","GE72501",],
+        "2016": ["GE40603","GE51018",],
+        "2015": ["GE31023","GE32023","GE40603","GE51018","GE80601",],
+        "2014": ["GE10732","GE20501","GE21601","GE40603","GE51018",]
+    }
+
     var distr = new Distribution('2018', pie_size);
     var evalu = new Evaluation('2018', graph_size);
     random_distr = distr.subjects[Math.floor(Math.random() * distr.subjects.length)];
+    while(NOT_IN_EVALUATION['2018'].includes(random_distr['科目番号'])){
+        random_distr = distr.subjects[Math.floor(Math.random() * distr.subjects.length)];
+    }
     distr.InitGraph(random_distr);
     evalu.InitGraph(evalu.GetSubjectFromID(random_distr['科目番号']));
 
@@ -89,5 +100,6 @@ function main() {
         GraphsReloadWithYear(year, [distr, evalu]);
     })
 }
+
 
 main()

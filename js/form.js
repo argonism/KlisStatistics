@@ -20,8 +20,8 @@ function SetDenominator(graphs, subj_id) {
     evalu_denominator = graphs[1].GetSubjectFromID(subj_id)["回答者"]
   }
 
-  $(".pie_wrapper .denominator").text("履修者数: " + String(distri_denominator))
-  $(".graph_wrapper .denominator").text("回答者数: " + String(evalu_denominator))
+  $(".distr .denominator").text("履修者数: " + String(distri_denominator))
+  $(".evalu .denominator").text("回答者数: " + String(evalu_denominator))
 }
 
 function InitYearSelect() {

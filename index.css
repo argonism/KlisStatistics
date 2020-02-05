@@ -95,14 +95,11 @@ header ul li:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
+    flex-direction: row;
     flex-wrap: wrap;
     z-index: 100;
     border-bottom: 1px dashed #333;
-    /* background-image: linear-gradient(270deg, rgba(0,0,0, 0.1), rgba(0,0,0, 0.3)), url(img/forest.jpg);
-    background-repeat: none;
-    background-position: 100% 40%;
-    background-size: cover; */
+    background-color: rgba(255,255,255, 0.6);
 }
 
 .list_candidate {
@@ -111,8 +108,8 @@ header ul li:hover {
     padding: 0;
     margin: 0;
     width: 310px;
-    position:absolute;
-    top: 70px;
+    position: absolute;
+    top: 40px;
     z-index: 1000;
     box-shadow: 0px 0px 10px rgba(0,0, 0,0.2);
     max-height: 80vh;
@@ -136,9 +133,13 @@ header ul li:hover {
     border: none;
 }
 
+#search_form {
+    margin: 0;
+}
+
 #search_title {
     display:　list-item;
-    margin: 0 auto;
+    /* margin: 0 auto; */
     padding: 5px;
     width: 300px;
     height: 2em;
@@ -163,6 +164,16 @@ header ul li:hover {
 }
 
 @media screen and (max-width:781px){
+    /* #search_form {
+        position: sticky;
+        top: 0;
+    } */
+
+    .form {
+        position: sticky;
+        top: 0;
+    }
+
     #search_title {
         /* width: 50%; */
         font-size: 1em;
@@ -173,15 +184,16 @@ header ul li:hover {
 
 /*** year ***/
 #year {
+    display: block;
     position: relative;
-    width: 100%;
-    margin: 0 auto;
+    /* width: 100%; */
+    /* margin:  auto; */
 }
 
 #year h2 {
     text-align: center;
     /* font-size: px; */
-    margin:0;
+    /* margin:0; */
 }
 
 #year_select {
@@ -217,13 +229,22 @@ header ul li:hover {
     border-bottom: none;
 }
 
+
+/* @media screen and (max-width:781px){
+    #year {
+        font-size: 1.4em;
+        position: sticky;
+        top: 100px;
+    }
+} */
+
 /***************** main ****************/
 
 
 .main {
     z-index: -1;
     width: inherit;
-    /* height: 100; */
+    height: 90vh;
     margin: auto;
 }
 
@@ -253,9 +274,16 @@ header ul li:hover {
 }
 
 @media screen and (max-width:781px){
+    .main {
+        z-index: -1;
+        width: inherit;
+        height: 100%;
+        margin: auto;
+    }
+
     #question_txt {
         display: block;
-        width: 100vw;
+        width: 100%;
         margin: 20px;
         padding: 0;
         height: 2em;
@@ -266,48 +294,45 @@ header ul li:hover {
 /*************** グラフ ***************/
 
 
-.chart_wrapper {
-    display: flex;
+#charts {
     width: 80%;
-    /* height: 50%; */
-    margin: 0 auto;
-    padding: 50px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: row; 
-    flex-wrap: no-wrap;
-    
+    margin: auto;
+    display: grid;
+    /* grid-template-rows: 50% 1rf; */
+    grid-template-columns: 50% 50%;
 }
 
-.pie_wrapper, .graph_wrapper {
-    display: flex;
-    width: inherit;
-    position: relative;
-    padding: 30px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; 
-    flex-wrap: no-wrap;
-    z-index: 0;
+.distr.stats {
+    grid-row: 1/2;
+    grid-column: 1/2;
+}
+.distr.chart {
+    grid-row: 2/3;
+    grid-column: 1/2;
+}
+.evalu.stats {
+    grid-row: 1/2;
+    grid-column: 2/3;
+}
+.evalu.chart{
+    grid-row: 2/3;
+    grid-column: 2/3;
 }
 
-.pie_wrapper .right {
-    width: 30%;
-    height: 100%;
-    margin-left: 30px;
+
+#charts .title, .denominator {
     text-align: center;
 }
 
-.pie_wrapper .left {
-    width: 30%;
-    height: 100%;
-    margin-left: 30px;
-    text-align: center;
-}
 
-#pie, #graph {
+.chart {
     display: block;
-    border-radius: 30px;
+    margin: auto;
+}
+
+.stats{
+    width: 50%;
+    margin: 70px auto 100px auto;
 }
 
 .c3-chart-arc text {
@@ -315,6 +340,47 @@ header ul li:hover {
     fill: #fff !important;
 }
 
+@media screen and (max-width:781px){
+    #charts {
+        width: 100%;
+        height: 100%;
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 200px 500px 200px 500px;
+    }
+
+    .chart {
+        max-width: 100%;
+        margin: auto;
+    }
+    
+    .stats{
+        width: 50%;
+        margin: 100px auto 30px auto;
+    }
+
+    .distr.stats {
+        margin-top: 30px;
+        grid-column: 1/2;
+        grid-row: 1/2;
+    }
+    .distr.chart {
+        grid-column: 1/2;
+        grid-row: 2/3;
+        margin: 10px auto;
+    }
+    .evalu.stats {
+        grid-column: 1/2;
+        grid-row: 3/4;
+    }
+    .evalu.chart{
+        grid-column: 1/2;
+        grid-row: 4/5;
+        margin: 10px auto;
+    }
+
+
+}
 
 /************ footer **************/
 
@@ -335,6 +401,7 @@ footer a:hover {
 
 footer #container {
     width: 80%;
+    height: 100px;
     margin: auto;
     display: grid;
     grid-template-areas:
@@ -375,17 +442,30 @@ footer #container {
 
 
 @media screen and (max-width:781px){
-    #container {
+    footer #container {
         width: 80%;
         margin: auto;
         display: grid;
-
         row-gap: 50px;
         column-gap: 50px;
         grid-template-areas:
         "repository developper"
         "dev-year data-source" ;
     }
+
+    .repository {
+        grid-area: repository;
+    }
+    .developper {
+        grid-area: developper;
+    }
+    .dev-year {
+        grid-area: dev-year;
+    }
+    .data-source {
+        grid-area: data-source;
+    }
+
     .items:first-child {
         text-decoration: underline;
         padding-bottom: 20px;
@@ -395,12 +475,12 @@ footer #container {
     }
 
 
-    .chart_wrapper {
+    #charts {
         padding: 0;
         flex-direction: column;
     }
 
-    #pie {
+    .distr .chart {
         padding: 0;
     }
 }
