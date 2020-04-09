@@ -1,8 +1,11 @@
 ﻿import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Reset } from 'styled-reset';
+import { Link } from 'react-router-dom';
 
-export const Layout: React.FC = ({ children }) => {
+import { Path } from '../routes';
+
+const Layout: React.FC = ({ children }) => {
   return (
     <>
       <Reset />
@@ -10,7 +13,7 @@ export const Layout: React.FC = ({ children }) => {
       <Wrapper>
         <Header>
           <HeaderWrapper>
-            <Home></Home>
+            <Home to={Path.home}></Home>
             <Menu>
               <MenuItems>HUGA</MenuItems>
               <MenuItems>FOGE</MenuItems>
@@ -54,7 +57,7 @@ const HeaderWrapper = styled.div`
   justify-content: center;
 `;
 
-const Home = styled.div`
+const Home = styled(Link)`
   flex: 1;
   width: 30px;
   height: 30px;

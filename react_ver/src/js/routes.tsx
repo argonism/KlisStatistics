@@ -5,15 +5,15 @@ import Course from './components/Course';
 import Layout from './components/Layout';
 
 export const Path = {
-  app: '/',
+  home: '/',
   otameshi: '/otameshi',
 };
 
 const routes = (
   <Layout>
     <Switch>
-      <Route exact path={Path.app} component={Course} />
-      <Redirect to={Path.app} />
+      <Route exact path={Path.home} component={Course} />
+      <Redirect to={Path.home} />
     </Switch>
   </Layout>
 );
