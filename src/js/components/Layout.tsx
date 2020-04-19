@@ -1,4 +1,5 @@
-﻿import React from 'react';
+﻿/* eslint-disable react/prop-types */
+import React from 'react';
 import styled, { createGlobalStyle } from 'styled-components';
 import { Reset } from 'styled-reset';
 import { Link } from 'react-router-dom';

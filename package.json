@@ -43,6 +43,7 @@
     "eslint-plugin-react-hooks": "^1.6.1",
     "file-loader": "4.3.0",
     "fs-extra": "^8.1.0",
+    "gh-pages": "^2.2.0",
     "html-webpack-plugin": "4.0.0-beta.11",
     "identity-obj-proxy": "3.0.0",
     "immutable": "^4.0.0-rc.12",
@@ -111,8 +112,11 @@
     "lint:fix": "yarn lint --fix",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start-js": "node scripts/start.js"
+    "start-js": "node scripts/start.js",
+    "preghpages": "yarn build",
+    "ghpages": "gh-pages -d build"
   },
+  "homepage": "./",
   "eslintConfig": {
     "extends": "react-app"
   },
