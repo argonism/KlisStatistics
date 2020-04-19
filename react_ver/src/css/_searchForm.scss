@@ -1,0 +1,67 @@
+﻿.react-autosuggest__container {
+  width: 40%;
+  max-width: 340px;
+
+  @media (max-width: 768px) {
+    width: 300px;
+  }
+
+  .inputContainer {
+    position: relative;
+    background-color: #fff;
+    border-radius: 4px;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &:focus-within {
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.2) ;
+      outline: none;
+    }
+
+    // 検索アイコン
+    .fa-search {
+      padding: 0 10px 0 15px;
+    }
+
+    .react-autosuggest__input {
+      width: 100%;
+      height: 50px;
+      font-family: Helvetica, sans-serif;
+      font-weight: 300;
+      font-size: 16px;
+      // text-align: center;
+
+      // スタイルリセット
+      border: none;
+      background-color: transparent;
+
+      font-family: FontAwesome, "Open Sans", Verdana, sans-serif;
+
+      &:focus {
+        outline: none;
+      }
+    }
+  }
+
+  .react-autosuggest__suggestions-container {
+    width: 100%;
+    position: relative;
+
+    .react-autosuggest__suggestions-list {
+      width: 100%;
+      position: absolute;
+      top: -2px;
+      z-index: 10;
+      max-height: 300px;
+      overflow-y: auto;
+
+      .react-autosuggest__suggestion {
+        background-color: #fff;
+        width: calc(100% - 20px);
+        padding: 10px;
+      }
+    }
+  }
+}

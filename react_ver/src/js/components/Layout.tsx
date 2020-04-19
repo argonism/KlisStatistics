@@ -2,6 +2,7 @@
 import styled, { createGlobalStyle } from 'styled-components';
 import { Reset } from 'styled-reset';
 import { Link } from 'react-router-dom';
+import media from 'styled-media-query';
 
 import { Path } from '../routes';
 
@@ -15,8 +16,14 @@ const Layout: React.FC = ({ children }) => {
           <HeaderWrapper>
             <Home to={Path.home}></Home>
             <Menu>
-              <MenuItems>HUGA</MenuItems>
-              <MenuItems>FOGE</MenuItems>
+              <MenuItems>
+                <a href='https://github.com/argonism/KlisStatistics'>
+                  <i className='fab fa-github-square'></i>
+                </a>
+              </MenuItems>
+              {/* <MenuItems>
+                <a href='http://klis.tsukuba.ac.jp/'>Klis</a>
+              </MenuItems> */}
             </Menu>
           </HeaderWrapper>
         </Header>
@@ -36,21 +43,30 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
+
+  a {
+    color: #333;
+    text-decoration: none;
+  }
 `;
 
 const Wrapper = styled.div`
   width: 100%;
-  text-align: center;
 `;
 
 const Header = styled.header`
-  width: 100%;
   margin: 0;
   padding: 20px 10px;
   background-color: #fff;
 `;
 
 const HeaderWrapper = styled.div`
+  width: 70%;
+  ${media.lessThan('small')`
+    width: 90%;
+    padding: 0;
+  `};
+  margin: auto;
   padding: 0 50px;
   display: flex;
   align-items: center;
@@ -81,6 +97,11 @@ const Menu = styled.ul`
 const MenuItems = styled.li`
   font-size: 1.2em;
   margin-left: 20px;
+  color: #333;
+
+  & i {
+    font-size: 31px;
+  }
 `;
 
 const Body = styled.div`
