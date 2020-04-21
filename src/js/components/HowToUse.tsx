@@ -79,8 +79,9 @@ const Section = styled.div`
   margin: 30px 0;
   word-break: nomal;
 
-  margin-bottom: 60px;
+  margin-bottom: 100px;
   ${media.lessThan('small')`
+    margin-bottom: 60px;
   `};
 `;
 

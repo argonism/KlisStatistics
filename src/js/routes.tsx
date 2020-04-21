@@ -6,7 +6,7 @@ import Layout from './components/Layout';
 import HowToUse from './components/HowToUse';
 
 export const Path = {
-  home: '/KlisStatistics',
+  home: '/',
   howto: '/How_to_use',
 };
 

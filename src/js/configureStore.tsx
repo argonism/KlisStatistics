@@ -5,7 +5,10 @@ import { createBrowserHistory } from 'history';
 
 import { State, rootReducer } from './reducers';
 
-export const history = createBrowserHistory();
+export const history = createBrowserHistory({
+  basename: process.env.PUBLIC_URL,
+});
+
 const middlewares = [routerMiddleware(history)];
 
 if (process.env.NODE_ENV !== 'production') {
