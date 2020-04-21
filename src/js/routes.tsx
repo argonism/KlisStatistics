@@ -5,10 +5,16 @@ import Course from './components/Course';
 import Layout from './components/Layout';
 import HowToUse from './components/HowToUse';
 
-export const Path = {
-  home: process.env.PUBLIC_URL + '/',
-  howto: process.env.PUBLIC_URL + '/How_to_use',
-};
+export const Path =
+  process.env.NODE_ENV === 'production'
+    ? {
+        home: '/KlisStatistics/',
+        howto: '/KlisStatistics/How_to_use',
+      }
+    : {
+        home: '/',
+        howto: '/How_to_use',
+      };
 
 const routes = (
   <Layout>

@@ -15,7 +15,9 @@ const Layout: React.FC = ({ children }) => {
       <Wrapper>
         <Header>
           <HeaderWrapper>
-            <Home to={Path.home}></Home>
+            <Home to={Path.home}>
+              <HomeImg src={Path.home + 'img/ks.png'}></HomeImg>
+            </Home>
             <Menu>
               <MenuItems>
                 <MenuItem to={Path.howto}>{'About'}</MenuItem>
@@ -92,10 +94,14 @@ const Home = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  background-image: url(${process.env.PUBLIC_URL + 'img/ks.png'});
+  /* background-image: url('img/ks.png'});
   background-size: contain;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat; */
   list-style: none;
+`;
+
+const HomeImg = styled.img`
+  height: 100%;
 `;
 
 const Menu = styled.ul`
