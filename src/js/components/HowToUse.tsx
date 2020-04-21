@@ -2,6 +2,8 @@
 import styled from 'styled-components';
 import media from 'styled-media-query';
 
+import { Path } from '../routes';
+
 const HowToUse: React.FC = () => {
   return (
     <HowToWrapper>
@@ -113,7 +115,9 @@ const SectionDiscription = styled.div`
   text-align: center;
 `;
 
-const Img = styled.img`
+const Img = styled.img.attrs(props => ({
+  src: Path.home + props.src,
+}))`
   width: 600px;
   ${media.lessThan('small')`
     width: 100%;

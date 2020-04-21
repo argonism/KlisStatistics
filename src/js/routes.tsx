@@ -6,8 +6,8 @@ import Layout from './components/Layout';
 import HowToUse from './components/HowToUse';
 
 export const Path = {
-  home: '/',
-  howto: '/How_to_use',
+  home: process.env.PUBLIC_URL + '/',
+  howto: process.env.PUBLIC_URL + '/How_to_use',
 };
 
 const routes = (
