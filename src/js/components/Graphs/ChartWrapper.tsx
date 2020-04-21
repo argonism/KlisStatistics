@@ -22,10 +22,11 @@ const ChartWrapper: React.FC<ChartWrapperProps> = (props: ChartWrapperProps): JS
   };
 
   return (
-    <Wrapper width={props.width} height={props.height}>
+    <Wrapper width={props.width} height={props.height} className={'chart-wrapper'}>
       <ChartDeleteButton onClick={_ => OnDelete(props.id)}>
         <FontAwesomeIcon icon={faTimesCircle} />
       </ChartDeleteButton>
+      <ChartDiscription className={'chart-discription'}></ChartDiscription>
       {props.children}
     </Wrapper>
   );
@@ -67,6 +68,22 @@ const ChartDeleteButton = styled.button`
   z-index: 5;
   transition: all 0.15s linear 0s;
   color: transparent;
+`;
+
+const ChartDiscription = styled.div`
+  font-size: 16px;
+  width: 80%;
+  padding: 0 5%;
+
+  position: absolute;
+  bottom: 10px;
+  left: 5%;
+  text-align: center;
+
+  ${media.lessThan('small')`
+    width: 90%;
+    left: 0;
+  `};
 `;
 
 export type ChartProps = {

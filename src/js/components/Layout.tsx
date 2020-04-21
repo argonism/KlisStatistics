@@ -18,6 +18,7 @@ const Layout: React.FC = ({ children }) => {
             <Home to={Path.home}></Home>
             <Menu>
               <MenuItems>
+                <MenuItem to={Path.howto}>{'About'}</MenuItem>
                 <a href='https://github.com/argonism/KlisStatistics'>
                   <i className='fab fa-github-square'></i>
                 </a>
@@ -28,6 +29,7 @@ const Layout: React.FC = ({ children }) => {
             </Menu>
           </HeaderWrapper>
         </Header>
+        <HeaderPlaceHolder></HeaderPlaceHolder>
         <Body>{children}</Body>
         <Footer></Footer>
       </Wrapper>
@@ -38,9 +40,6 @@ const Layout: React.FC = ({ children }) => {
 const GlobalStyle = createGlobalStyle`
   body {
     margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-      sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -59,10 +58,22 @@ const Header = styled.header`
   margin: 0;
   padding: 20px 10px;
   background-color: #fff;
+  width: 100vw;
+  position: fixed;
+
+  border-bottom: 1px solid #ddd;
+  z-index: 9;
+`;
+
+const HeaderPlaceHolder = styled.div`
+  margin: 0;
+  padding: 35px 0px;
+  background-color: #fff;
 `;
 
 const HeaderWrapper = styled.div`
   width: 70%;
+  max-width: 800px;
   ${media.lessThan('small')`
     width: 90%;
     padding: 0;
@@ -93,16 +104,23 @@ const Menu = styled.ul`
   align-items: center;
   justify-content: flex-end;
   list-style: none;
-`;
 
-const MenuItems = styled.li`
   font-size: 1.2em;
-  margin-left: 20px;
-  color: #333;
-
   & i {
     font-size: 31px;
   }
+  color: #333;
+`;
+
+const MenuItems = styled.li`
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  list-style: none;
+`;
+
+const MenuItem = styled(Link)`
+  margin-right: 20px;
 `;
 
 const Body = styled.div`

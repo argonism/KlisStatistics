@@ -5,12 +5,15 @@ import { createBrowserHistory } from 'history';
 
 import { State, rootReducer } from './reducers';
 
-const logger = createLogger();
-
 export const history = createBrowserHistory();
+const middlewares = [routerMiddleware(history)];
+
+if (process.env.NODE_ENV !== 'production') {
+  const logger = createLogger();
+  middlewares.push(logger);
+}
 
 export function configureStore(preloadedState?: State) {
-  const middlewares = [routerMiddleware(history), logger];
   const middlewareEnhancer = applyMiddleware(...middlewares);
   const store = createStore(rootReducer(history), preloadedState, middlewareEnhancer);
   return store;

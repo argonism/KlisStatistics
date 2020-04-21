@@ -183,7 +183,7 @@ export class Graph extends ImRecord<{
       {
         qIndex: '問17',
         [subject['科目名称']]: subject['問17'],
-        平均: EvaluationMean[year]['17'],
+        平均: EvaluationMean[year]['問17'],
         label: 'この授業により，さらに深く勉強したくなった。',
       },
     ];

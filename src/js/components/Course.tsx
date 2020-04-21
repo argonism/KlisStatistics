@@ -77,7 +77,7 @@ const Course: React.FC = () => {
         onTypeChange={value => SetControllState({ ...controllState, type: value as ResourceType })}
         onYearChange={value => SetControllState({ ...controllState, year: value })}
       />
-      <ChartArea>
+      <ChartArea id={'chart-area'}>
         {graphs.size > 1 &&
           graphs.slice(1).map(
             (graph: Graph): JSX.Element => {

@@ -34,7 +34,7 @@
       width: 100%;
       position: absolute;
       top: -2px;
-      z-index: 10;
+      z-index: 7;
       max-height: 300px;
       overflow-y: auto; }
       .react-autosuggest__container .react-autosuggest__suggestions-container .react-autosuggest__suggestions-list .react-autosuggest__suggestion {
