@@ -1,7 +1,7 @@
 # Klis Statistics
 
 [https://argonism.github.io/KlisStatistics/](https://argonism.github.io/KlisStatistics/)
-![DEMO](https://i.imgur.com/kXODOPA.gif)
+![DEMO](https://argonism.github.io/KlisStatistics/img/klisstatistcs.gif)
 
 ## ・Klis Statistics とは？
 
@@ -15,7 +15,7 @@
 
 [issue](https://github.com/argonism/KlisStatistics/issues)をたてるか、[@usulity](https://twitter.com/usulity)までご連絡をば。
 
-## ・いい感じにプルリク送ってくれ
+## ・ゆるっとプルリク送って
 
-いい感じにゆるっとコミットしてくれ
+ゆるっとコミットください
 
