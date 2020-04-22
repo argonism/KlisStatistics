@@ -1,5 +1,7 @@
-﻿import React from 'react';
+﻿import React, { useState } from 'react';
 import styled from 'styled-components';
+
+import SearchEvaluation from '../data/search/Evaluation';
 
 export type ControllAreaProps = {
   onTypeChange: Function;
@@ -7,13 +9,17 @@ export type ControllAreaProps = {
 };
 
 const ControllArea = (props: ControllAreaProps) => {
+  const [year, setYear] = useState('2018');
   return (
     <Wrapper>
       <ControllSelect
         onChange={e => {
           props.onYearChange(e.target.value);
+          setYear(e.target.value);
         }}
+        defaultValue='2018'
       >
+        <ResourceOption value='2019'>2019</ResourceOption>
         <ResourceOption value='2018'>2018</ResourceOption>
         <ResourceOption value='2017'>2017</ResourceOption>
         <ResourceOption value='2016'>2016</ResourceOption>
@@ -27,7 +33,7 @@ const ControllArea = (props: ControllAreaProps) => {
         }}
       >
         <ResourceOption value='Distribution'>成績分布</ResourceOption>
-        <ResourceOption value='Evaluation'>授業評価</ResourceOption>
+        {SearchEvaluation[year] && <ResourceOption value='Evaluation'>授業評価</ResourceOption>}
       </ControllSelect>
     </Wrapper>
   );
