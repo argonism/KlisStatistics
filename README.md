@@ -1,3 +1,5 @@
+旧バージョンは master ブランチにあります
+
 # Klis Statistics
 
 [https://argonism.github.io/KlisStatistics/](https://argonism.github.io/KlisStatistics/)
