@@ -62,7 +62,6 @@ class SearchForm extends React.Component<SearchFormProps, any> {
     this.props.onSelected(suggestion);
   };
   shouldRenderSuggestions = value => {
-    console.log(value);
     if (value === '') return this.props.suggestions;
     return this.props.suggestions.filter(
       suggestion => suggestion[this.props.searchKey].toLowerCase().search(value) !== -1,
