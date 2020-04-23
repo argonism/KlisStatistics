@@ -34,6 +34,7 @@ class SearchForm extends React.Component<SearchFormProps, any> {
   };
 
   getSuggestions = (value): Record<string, any>[] => {
+    if (value === '') return this.props.suggestions;
     return this.props.suggestions.filter(
       suggestion => suggestion[this.props.searchKey].toLowerCase().search(value) !== -1,
     );
@@ -60,10 +61,13 @@ class SearchForm extends React.Component<SearchFormProps, any> {
   onSuggestionSelected = (event, { suggestion }) => {
     this.props.onSelected(suggestion);
   };
-  // onSuggestionSelected(event, { suggestion }): void {
-  //   console.log(this);
-  //   this.props.onSelected(this.props);
-  // }
+  shouldRenderSuggestions = value => {
+    console.log(value);
+    if (value === '') return this.props.suggestions;
+    return this.props.suggestions.filter(
+      suggestion => suggestion[this.props.searchKey].toLowerCase().search(value) !== -1,
+    );
+  };
 
   render() {
     const { value, suggestions } = this.state;
@@ -83,6 +87,8 @@ class SearchForm extends React.Component<SearchFormProps, any> {
         inputProps={inputProps}
         renderInputComponent={renderInputComponent}
         onSuggestionSelected={this.onSuggestionSelected}
+        shouldRenderSuggestions={this.shouldRenderSuggestions}
+        id={'auto-suggest-input'}
       />
     );
   }
