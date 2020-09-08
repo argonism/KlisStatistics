@@ -1,4 +1,5 @@
-﻿# This scirpt output json of klis subjects data from csv
+# This scirpt output json of klis subjects data from csv
+# Still, data shaping should be needed.
 
 import csv
 import os
@@ -6,10 +7,10 @@ import json
 import re
 from  decimal import Decimal, ROUND_HALF_UP
 
-
-CSV_DIR = '../../public/data'
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+CSV_DIR = os.path.join(BASE_DIR, '../../public/data')
 Distr = 'Distribution'
-OUTPUT_DIR = '../js/data'
+OUTPUT_DIR = os.path.join(BASE_DIR, '../js/data')
 SEARCH_DATA_DIR = 'search'
 
 TARGET_DATA_TYPE = [
@@ -82,8 +83,8 @@ export default {0};
   return template.format(variable_name, resource)
 
 def EvaluNumberToInt(subject):
-  subject['履修者数'] = int(subject['履修者数']) if '履修者数' in subject else int(subject['履修者'])
-  subject['回答者数'] = int(subject['回答者数']) if '回答者数' in subject else int(subject['回答者'])
+  subject['履修者数'] = int(float(subject['履修者数'])) if '履修者数' in subject else int(float(subject['履修者']))
+  subject['回答者数'] = int(float(subject['回答者数'])) if '回答者数' in subject else int(float(subject['回答者']))
   subject['問1'] = float(subject['問1'])
   subject['問2'] = float(subject['問2'])
   subject['問3'] = float(subject['問3'])

@@ -46,48 +46,5 @@
     <div id="root"></div>
   </body>
   <script>
-    const eval_questions = {
-      '問1': "授業の準備は十分にされていたと思いますか",
-      '問2': "教員の説明や授業の進め方は適切でしたか",
-      '問3': "授業を通じて、この科目に関連する分野への興味や関心が高まりましたか",
-      '問4': "総合的に判断して、この授業を受講してよかったと思いますか",
-      '問8': "私はこの科目にはもともと興味があった",
-      '問9': "私はこの授業の予習・復習・課題のために授業外で相当時間の学習を行った",
-      '問10': "この授業はシラバスに沿って計画的に行われていた",
-      '問11': "授業担当者の話し方は聞き取りやすかった",
-      '問12': "この授業で使われた教科書，配布資料は適切であった",
-      '問13': "この授業における黒板，ビデオ，パソコンなどの使い方は効果的であった",
-      '問14': "この授業では学期途中に学生の意見・要望が適切に収集された",
-      '問15': "この授業の内容はよく理解できた",
-      '問16': "この授業により，新しい知識や考え方が修得できた",
-      '問17': "この授業により，さらに深く勉強したくなった"
-    };
-
-    document.onreadystatechange = function () {
-      if (document.readyState == "interactive") {
-        const target = document.getElementById('chart-area');
-        if (target === null) return;
-
-        function OnChartAdded (records) {
-            const addedNode = records[0].addedNodes[0];
-            if (typeof addedNode === 'undefined') return;
-
-            const chartSVG = addedNode.lastElementChild.firstElementChild.firstElementChild.lastElementChild;
-            if (chartSVG === null ) return;
-            const tooltipLabelParent = chartSVG.firstElementChild.firstElementChild.lastElementChild;
-            if (tooltipLabelParent === null) return;
-            for (let item of tooltipLabelParent.children) {
-              const qTitle = item.firstElementChild.innerHTML;
-              item.addEventListener("mouseover", function( event ) {
-                const discript_area = addedNode.getElementsByClassName('chart-discription')[0];
-                discript_area.innerHTML = eval_questions[qTitle];
-              });
-            }
-        };
-
-        const mo = new MutationObserver(OnChartAdded);
-        mo.observe(target, {childList: true});
-      }
-    }
   </script>
 </html>
