@@ -19,6 +19,7 @@ const ControllArea = (props: ControllAreaProps) => {
         }}
         defaultValue='2018'
       >
+        <ResourceOption value='2020'>2020</ResourceOption>
         <ResourceOption value='2019'>2019</ResourceOption>
         <ResourceOption value='2018'>2018</ResourceOption>
         <ResourceOption value='2017'>2017</ResourceOption>
