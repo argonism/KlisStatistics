@@ -40,7 +40,12 @@ class SearchForm extends React.Component<SearchFormProps, any> {
     );
   };
 
-  onChange = (event, { newValue }): void => {
+  onChange = (event, { newValue, method }): void => {
+    console.log(method);
+    if (method === 'enter') {
+      this.props.onSelected(newValue);
+      return;
+    }
     this.setState({
       value: newValue,
     });
@@ -58,9 +63,10 @@ class SearchForm extends React.Component<SearchFormProps, any> {
     });
   };
 
-  onSuggestionSelected = (event, { suggestion }) => {
+  onSuggestionSelected = (event, { suggestion, suggestionValue, suggestionIndex, sectionIndex, method }) => {
     this.props.onSelected(suggestion);
   };
+
   shouldRenderSuggestions = value => {
     if (value === '') return this.props.suggestions;
     return this.props.suggestions.filter(
@@ -88,6 +94,7 @@ class SearchForm extends React.Component<SearchFormProps, any> {
         onSuggestionSelected={this.onSuggestionSelected}
         shouldRenderSuggestions={this.shouldRenderSuggestions}
         id={'auto-suggest-input'}
+        highlightFirstSuggestion={true}
       />
     );
   }
